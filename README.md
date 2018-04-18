@@ -1,7 +1,11 @@
 # Gram Scanner
 
-Gram Scanner is a command line interface of Ionian University's Gram-Web.
+Gram Scanner is an unofficial command line interface of Ionian University's Gram-Web.
 It can be used for students to easily get a list of their grades.
+
+## Demo
+
+![gif](https://i.imgur.com/laIyRgB.gif)
 
 ## Installation
 
