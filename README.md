@@ -7,15 +7,15 @@ It can be used for students to easily get a list of their grades.
 
 Run:
 
-    $ pip install gram-scanner
+    $ sudo pip install gram-scanner
 
 Set your Gram-Web username as enviroment variable:
     
-    $ echo "export GramWebUser=p16gkar" >> ~/.bash_profile
+    $ echo "export GramWebUser=<your-username>" >> ~/.bash_profile
 
 Set your Gram-Web password as enviroment variable:
 
-    $ echo "export GramWebPass=5pFewGqe" >> ~/.bash_profile
+    $ echo "export GramWebPass=<your-pass>" >> ~/.bash_profile
 
 Also make sure to reload your `.bash_profile` file after setting your credentials by running:
     
