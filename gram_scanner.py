@@ -94,7 +94,7 @@ def get_login_page(session):
   l_response = session.get(login_URL)
   l_response.encoding = 'windows-1253'
   text = l_response.text
-    
+
   return BeautifulSoup(text, "html.parser")
 
 def get_grades_page(session, payload):
@@ -104,6 +104,9 @@ def get_grades_page(session, payload):
 
   if "Student Login" in r.text:
     raise Exception ("Failed logging in on GramWeb. Either your username or password is wrong.")
+
+  if "Σφάλμα" in r.text:
+    raise Exception ("An error occured on GramWeb please try again later.")
 
   return r.text
 
