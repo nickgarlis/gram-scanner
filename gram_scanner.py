@@ -31,6 +31,7 @@ headers = {
   'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
   'Accept-Language': 'en-US,en;q=0.9'
 }
+
 @click.command()
 def main():   
     spinner = Halo(text= Style.DIM + 'Fetching login page...', spinner='dots')
@@ -47,7 +48,7 @@ def main():
         raise SystemExit
 
       try: 
-        payload = getPayload(login_page)
+        payload = get_payload(login_page)
         spinner.succeed(text= Style.DIM + 'Successfully retrieved hex values.')
         break
       except Exception as e:
@@ -69,17 +70,17 @@ def main():
     
     spinner.stop()
 
-def getPayload(login_page):
+def get_payload(login_page):
   scripts = login_page.find_all('script')
   script = scripts[10].string.replace("'+'", "")
 
   matches = re.findall(r"\'(.+?)\'",script)
-  name = codecs.decode(matches[0], 'unicode-escape').encode('latin1').decode('utf-8')
+  name = hex_to_string(matches[0])
   
   if ('<input' in name or len(matches)<2):
     raise Exception('Failed retrieving hex values.')
   
-  value = codecs.decode(matches[1], 'unicode-escape').encode('latin1').decode('utf-8')
+  value = hex_to_string(matches[1])
 
   return {
     'userName': username,
@@ -131,7 +132,10 @@ def print_grades(l_title, l_grade):
   else:
     color = Fore.GREEN
 
-  print(color + l_title + ' --> ' + Fore.WHITE + Style.BRIGHT + l_grade)    
+  print(color + l_title + ' --> ' + Fore.WHITE + Style.BRIGHT + l_grade)
+  
+def hex_to_string(value):
+  return codecs.decode(value, 'unicode-escape').encode('latin1').decode('utf-8')
 
 if(__name__ == "__main__"):
     main()
