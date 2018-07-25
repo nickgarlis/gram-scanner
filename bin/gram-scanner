@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+import os
+import click
+from colorama import Fore, Style
+
+from gramscanner.gramscanner import GramScanner
+
+if "GramWebUser" in os.environ:
+  pass
+else:
+  print (Style.DIM + "Please set the environment variable GramWebUser" + Style.NORMAL)
+  raise SystemExit
+
+if "GramWebPass" in os.environ:
+  pass
+else:
+  print (Style.DIM + "Please set the environment variable GramWebPass")
+  raise SystemExit
+
+username = os.environ.get('GramWebUser')
+password = os.environ.get('GramWebPass')
+
+@click.command()
+def main():   
+  gs = GramScanner(username, password)
+  
+  courses = gs.get_grades()
+
+  gs.print_grades(courses)
+    
+if(__name__ == "__main__"):
+  main()
