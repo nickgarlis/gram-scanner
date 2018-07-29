@@ -6,7 +6,6 @@ from halo import Halo
 from colorama import Fore, Style
 
 class GramScanner:
-
   def __init__(self, username, password):
     self.username = username
     self.password = password
@@ -20,11 +19,10 @@ class GramScanner:
     self.logger = Halo(text= Style.DIM + 'Fetching login page...', spinner='dots')
 
   def get_grades(self):
-    
     self.logger.start()
-
     for i in range(3):
       session = requests.Session()
+      session.headers.update(self.headers)
       
       try:
         login_page = self.get_login_page(session)
@@ -76,25 +74,23 @@ class GramScanner:
     }
 
   def get_login_page(self, session):
-    req_header = session.headers.update(self.headers)
-    l_response = session.get(self.login_URL)
-    l_response.encoding = 'windows-1253'
-    text = l_response.text
+    res = session.get(self.login_URL)
+    res.encoding = 'windows-1253'
 
-    return BeautifulSoup(text, "html.parser")
+    return BeautifulSoup(res.text, "html.parser")
 
   def get_grades_page(self, session, payload):
-    post = session.post(self.login_URL, data=payload)
-    r = session.get(self.request_URL)
-    r.encoding = 'windows-1253'
+    session.post(self.login_URL, data=payload)
+    res = session.get(self.request_URL)
+    res.encoding = 'windows-1253'
 
-    if "Student Login" in r.text:
+    if "Student Login" in res.text:
       raise Exception ("Failed logging in on GramWeb. Either your username or password is wrong.")
 
-    if "Σφάλμα" in r.text:
+    if "Σφάλμα" in res.text:
       raise Exception ("An error occured on GramWeb please try again later.")
 
-    return BeautifulSoup(r.text, "html.parser")
+    return BeautifulSoup(res.text, "html.parser")
 
   def find_grades(self,grades_page):
     courses = []
@@ -120,7 +116,6 @@ class GramScanner:
       
   def print_grades(self, courses):
     for course in courses:
-
       if 'Consolidation' in course['title']:
         color = Fore.WHITE + Style.DIM
       elif '-' in course['grade']:
