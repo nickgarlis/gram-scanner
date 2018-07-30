@@ -92,7 +92,7 @@ class GramScanner:
 
     return BeautifulSoup(res.text, "html.parser")
 
-  def find_grades(self,grades_page):
+  def find_grades(self, grades_page):
     courses = []
     courses_table = grades_page.find_all('tr', bgcolor="#fafafa", height="25")
 
@@ -112,10 +112,12 @@ class GramScanner:
         'grade': c_grade
       })
     
-    return courses
+    return {
+      'courses': courses
+    }
       
-  def print_grades(self, courses):
-    for course in courses:
+  def print_grades(self, data):
+    for course in data['courses']:
       if 'Consolidation' in course['title']:
         color = Fore.WHITE + Style.DIM
       elif '-' in course['grade']:

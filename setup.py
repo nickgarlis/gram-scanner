@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='gram-scanner',
-  version='0.1.1',
+  version='1.0.0',
   description="A command line interface of Ionian University's Gram-Web",
   author='Nick Garlis',
   author_email='nickgarlis@gmail.com',
@@ -20,8 +20,7 @@ setup(
   include_package_data=True,
   license='MIT',
   classifiers=[
-    'Development Status :: 4 - Beta',
-    'License :: OSI Approved :: MIT License',
+    'Development Status :: 5 - Production/Stable',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.2',
     'Programming Language :: Python :: 3.3',

@@ -24,9 +24,9 @@ password = os.environ.get('GramWebPass')
 def main():   
   gs = GramScanner(username, password)
   
-  courses = gs.get_grades()
+  data = gs.get_grades()
 
-  gs.print_grades(courses)
+  gs.print_grades(data)
     
 if(__name__ == "__main__"):
   main()
