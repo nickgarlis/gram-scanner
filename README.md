@@ -5,7 +5,7 @@ It can be used by students to easily get a list of their grades.
 
 ## Demo
 
-![gif](https://i.imgur.com/laIyRgB.gif)
+![gif](https://i.imgur.com/qD4kZuX.gif)
 
 ## Installation
 

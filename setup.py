@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='gram-scanner',
-  version='1.0.0',
+  version='1.0.1',
   description="A command line interface of Ionian University's Gram-Web",
   author='Nick Garlis',
   author_email='nickgarlis@gmail.com',
