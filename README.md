@@ -1,7 +1,7 @@
 # Gram Scanner
 
 Gram Scanner is an unofficial command line interface of Ionian University's Gram-Web.
-It can be used for students to easily get a list of their grades.
+It can be used by students to easily get a list of their grades.
 
 ## Demo
 
@@ -19,7 +19,7 @@ Set your Gram-Web username as enviroment variable:
 
 Set your Gram-Web password as enviroment variable:
 
-    $ echo "export GramWebPass=<your-pass>" >> ~/.bash_profile
+    $ echo "export GramWebPass=<your-password>" >> ~/.bash_profile
 
 Also make sure to reload your `.bash_profile` file after setting your credentials by running:
     
@@ -31,6 +31,9 @@ Simply run `gram-scanner` to get a list of your grades:
     
     $ gram-scanner
 
+You can also pass your credentials as arguments:
+    
+    $ gram-scanner <your-username> <your-password>
 
 ## Contributing
 
