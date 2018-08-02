@@ -11,9 +11,8 @@ setup(
   packages=find_packages(exclude=('bin')),
   scripts=['bin/gram-scanner'],
   install_requires=[
-    'click',
     'bs4',
-    'halo',
+    'click',
     'colorama',
     'requests'
   ],

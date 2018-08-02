@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 import os
 import click
-from gramscanner.gramscanner import GramScanner
+
+import sys
+from os.path import normpath, dirname, join
+local_gramscanner_module = normpath(join(dirname(__file__), '..'))
+sys.path.insert(0, local_gramscanner_module)
+
+from gramscanner import GramScanner
 
 @click.command()
 @click.argument('GramWebUser', envvar='GramWebUser')

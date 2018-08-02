@@ -2,8 +2,8 @@ import re
 import codecs
 import requests
 from bs4 import BeautifulSoup
-from halo import Halo
 from colorama import Fore, Style
+from .logger import Logger
 
 class GramScanner:
   def __init__(self, username, password):
@@ -16,10 +16,9 @@ class GramScanner:
       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
       'Accept-Language': 'en-US,en;q=0.9'
     }
-    self.logger = Halo(text= Style.DIM + 'Fetching login page...', spinner='dots')
 
   def get_grades(self):
-    self.logger.start()
+    Logger.status('Fetching login page...')
     for i in range(3):
       session = requests.Session()
       session.headers.update(self.headers)
@@ -27,28 +26,26 @@ class GramScanner:
       try:
         login_page = self.get_login_page(session)
       except Exception as e:
-        self.logger.fail(text = Style.DIM + str(e))
+        Logger.fail(str(e))
         raise SystemExit
 
       try: 
         payload = self.get_payload(login_page)
-        self.logger.succeed(text= Style.DIM + 'Successfully retrieved authentication tokens.')
+        Logger.status('Successfully retrieved authentication tokens.')
         break
       except Exception as e:
-        self.logger.fail(text= Style.DIM + str(e))
+        Logger.fail(str(e))
         if i == 2:
           raise SystemExit 
-        self.logger.start(text= Style.DIM + 'Retrying...')
+        Logger.status('Retrying...')
     
-    self.logger.start(text = Style.DIM + 'Logging in on GramWeb')
+    Logger.status('Logging in...')
     try:
       grades_page = self.get_grades_page(session, payload)
-      self.logger.succeed(text= Style.DIM + 'Successfully logged in on GramWeb.')
+      Logger.status('Successfully logged in on GramWeb')
     except Exception as e:
-      self.logger.fail(text = Style.DIM + str(e))
+      Logger.fail(str(e))
       raise SystemExit
-    
-    self.logger.stop()
 
     return self.find_grades(grades_page)
 
@@ -115,17 +112,9 @@ class GramScanner:
     return {
       'courses': courses
     }
-      
-  def print_grades(self, data):
-    for course in data['courses']:
-      if 'Consolidation' in course['title']:
-        color = Fore.WHITE + Style.DIM
-      elif '-' in course['grade']:
-        color = Fore.YELLOW
-      else:
-        color = Fore.GREEN
 
-      print(color + course['title'] + ' --> ' + Fore.WHITE + Style.BRIGHT + course['grade'])
+  def print_grades(self, data):
+    Logger.print_grades(data)
     
   def hex_to_string(self, value):
     return codecs.decode(value, 'unicode-escape').encode('latin1').decode('utf-8')
