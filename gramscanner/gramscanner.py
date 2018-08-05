@@ -6,9 +6,10 @@ from colorama import Fore, Style
 from .logger import Logger
 
 class GramScanner:
-  def __init__(self, username, password):
+  def __init__(self, username, password, logger):
     self.username = username
     self.password = password
+    self.logger = Logger(logger)
     self.login_URL = 'http://gram-web.ionio.gr/unistudent/login.asp'
     self.request_URL = 'http://gram-web.ionio.gr/unistudent/stud_CResults.asp?lang=en-us&studPg=1&mnuid=mnu3'
     self.headers = {
@@ -16,9 +17,9 @@ class GramScanner:
       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
       'Accept-Language': 'en-US,en;q=0.9'
     }
-
+    
   def get_grades(self):
-    Logger.status('Fetching login page...')
+    self.logger.status('Fetching login page...')
     for i in range(3):
       session = requests.Session()
       session.headers.update(self.headers)
@@ -26,25 +27,25 @@ class GramScanner:
       try:
         login_page = self.get_login_page(session)
       except Exception as e:
-        Logger.fail(str(e))
+        self.logger.fail(str(e))
         raise SystemExit
 
       try: 
         payload = self.get_payload(login_page)
-        Logger.status('Successfully retrieved authentication tokens.')
+        self.logger.status('Successfully retrieved authentication tokens.')
         break
       except Exception as e:
-        Logger.fail(str(e))
+        self.logger.fail(str(e))
         if i == 2:
           raise SystemExit 
-        Logger.status('Retrying...')
+        self.logger.status('Retrying...')
     
-    Logger.status('Logging in...')
+    self.logger.status('Logging in...')
     try:
       grades_page = self.get_grades_page(session, payload)
-      Logger.status('Successfully logged in on GramWeb')
+      self.logger.status('Successfully logged in on GramWeb')
     except Exception as e:
-      Logger.fail(str(e))
+      self.logger.fail(str(e))
       raise SystemExit
 
     return self.find_grades(grades_page)
@@ -114,7 +115,7 @@ class GramScanner:
     }
 
   def print_grades(self, data):
-    Logger.print_grades(data)
+    self.logger.print_grades(data)
     
   def hex_to_string(self, value):
     return codecs.decode(value, 'unicode-escape').encode('latin1').decode('utf-8')

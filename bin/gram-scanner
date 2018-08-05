@@ -13,7 +13,7 @@ from gramscanner import GramScanner
 @click.argument('GramWebUser', envvar='GramWebUser')
 @click.argument('GramWebPass', envvar='GramWebPass')
 def main(gramwebuser, gramwebpass):
-  gs = GramScanner(gramwebuser, gramwebpass)
+  gs = GramScanner(gramwebuser, gramwebpass, logger=True)
   data = gs.get_grades()
   gs.print_grades(data)
     
