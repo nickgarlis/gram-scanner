@@ -12,8 +12,9 @@ from gramscanner import GramScanner
 @click.command()
 @click.argument('GramWebUser', envvar='GramWebUser')
 @click.argument('GramWebPass', envvar='GramWebPass')
-def main(gramwebuser, gramwebpass):
-  gs = GramScanner(gramwebuser, gramwebpass, logger=True)
+@click.option('--logger/--no-logger', default=True)
+def main(gramwebuser, gramwebpass, logger):
+  gs = GramScanner(gramwebuser, gramwebpass, logger)
   data = gs.get_grades()
   gs.print_grades(data)
     

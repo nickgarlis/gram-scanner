@@ -1,3 +1,4 @@
+import sys
 from colorama import Fore, Style
 
 class Logger:
@@ -6,14 +7,19 @@ class Logger:
 
   def status(self, text):
     if self.logger:
-      print(Fore.CYAN + text, flush=True)
-      print(Style.RESET_ALL)
+      sys.stdout.write(Fore.CYAN)
+      sys.stdout.write(text)
+      sys.stdout.write(Style.RESET_ALL)
+      sys.stdout.write('\n')
+      sys.stdout.flush()
 
   def fail(self, text):
-    if self.logger:
-      print(Fore.RED + text, flush=True)
-      print(Style.RESET_ALL)
-
+    sys.stdout.write(Fore.RED)
+    sys.stderr.write(text)
+    sys.stdout.write(Style.RESET_ALL)
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+    
   def print_grades(self, data):
     for course in data['courses']:
       title = course['title']
@@ -28,4 +34,8 @@ class Logger:
       else:
         color = Fore.GREEN
 
-      print(color + title + ' --> ' + Fore.WHITE + Style.BRIGHT + grade + Style.RESET_ALL, flush=True)
+      sys.stdout.write(color)
+      sys.stdout.write(title + ' --> ' + Fore.WHITE + Style.BRIGHT + grade)
+      sys.stdout.write(Style.RESET_ALL)
+      sys.stdout.write('\n')
+      sys.stdout.flush()
